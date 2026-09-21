@@ -15,7 +15,7 @@ import time
 token_file = "token.txt"
 secret = "ceci-est-mon-secret-mais-je-ne-le-dis-pas"
 now = int(time.time())
-five_minutes_later = now + 300
+five_minutes_later = now + 60
 
 payload = {
     "iss": "https://geba.fr",
