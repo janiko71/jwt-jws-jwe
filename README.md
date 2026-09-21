@@ -1,6 +1,6 @@
 # Mini tutoriel JWT / JWS / JWE
 
-Ce projet montre comment générer, lire et vérifier un JWT en Python avec la bibliothèque `PyJWT`.
+Ce projet montre comment générer, lire et vérifier des JWT en Python avec les bibliothèques `PyJWT` et `jwcrypto`.
 
 ## 1. Qu'est-ce qu'un JWT ?
 
@@ -47,12 +47,21 @@ Un JWE est un JWT chiffré. Il protège le contenu du token contre la lecture pa
 
 En JWE, le payload est chiffré et ne peut être lu qu'avec la bonne clé privée ou clé secrète selon le mécanisme utilisé.
 
-Exemple conceptuel :
+Dans cet exemple, le payload est chiffré avec la clé publique RSA du destinataire. Le token utilise `RSA-OAEP-256` pour protéger la clé de chiffrement et `A256GCM` pour chiffrer les données :
 
 ```python
-# Exemple conceptuel : le payload est chiffré
-# et non simplement signé comme dans un JWS.
+from jwcrypto import jwk, jwe
+
+public_key = jwk.JWK.from_pem(open("public.pem", "rb").read())
+encrypted_token = jwe.JWE(
+    plaintext=b'{"sub": "jeannot-lapin"}',
+    protected={"alg": "RSA-OAEP-256", "enc": "A256GCM"}
+)
+encrypted_token.add_recipient(public_key)
+token = encrypted_token.serialize(compact=True)
 ```
+
+Le payload n'est pas lisible sans la clé privée correspondante (`private.pem`). Un JWE compact contient cinq parties séparées par des points, contrairement à un JWS qui en contient trois.
 
 ## 4. Différence entre JWT, JWS et JWE
 
@@ -146,10 +155,28 @@ if decoded.get("role") != "Super Admin":
 
 C'est important parce que `jwt.decode()` valide le token, mais pas forcément les règles métier de votre application.
 
-## 7. Bonnes pratiques
+## 7. Lecture d'un JWE
+
+Le token chiffré est déchiffré avec la clé privée RSA. Après le déchiffrement, `read3.py` vérifie les claims standards et les règles métier :
+
+```python
+import json
+
+from jwcrypto import jwk, jwe
+
+private_key = jwk.JWK.from_pem(open("private.pem", "rb").read())
+encrypted_token = jwe.JWE()
+encrypted_token.deserialize(token, key=private_key)
+payload = json.loads(encrypted_token.payload.decode("utf-8"))
+```
+
+Le déchiffrement protège la confidentialité et `A256GCM` garantit l'intégrité du contenu. Pour authentifier l'identité de l'émetteur, l'application peut également utiliser un JWS signé.
+
+## 8. Bonnes pratiques
 
 - Ne jamais stocker de secrets sensibles en clair dans le code
-- Vérifier toujours la signature
+- Vérifier toujours la signature pour un JWS
+- Déchiffrer un JWE uniquement avec la clé privée attendue
 - Vérifier l'expiration (`exp`)
 - Vérifier l'audience (`aud`) pour contrôler le destinataire attendu
 - Vérifier le sujet (`sub`) et l'émetteur (`iss`) si nécessaire
@@ -157,26 +184,36 @@ C'est important parce que `jwt.decode()` valide le token, mais pas forcément le
 - Utiliser des algorithmes sécurisés
 - Ne pas mettre d'informations sensibles dans le payload si elles ne doivent pas être visibles
 
-## 8. Fichiers du projet
+## 9. Fichiers du projet
 
 - `write1.py` : génère un JWT et l'écrit dans `token.txt`
 - `read1.py` : lit le token, le vérifie et affiche le payload
+- `write2.py` : génère un JWS signé avec RSA et l'écrit dans `token.txt`
+- `read2.py` : vérifie le JWS avec `public.pem`
+- `write3.py` : génère un JWE chiffré avec `public.pem` et l'écrit dans `token_chiffre.txt`
+- `read3.py` : déchiffre le JWE avec `private.pem` et vérifie ses claims
+- `private.pem` : clé privée RSA, à protéger et à ne jamais partager
+- `public.pem` : clé publique RSA utilisée pour le chiffrement et la vérification
 - `requirements.txt` : dépendances nécessaires pour le projet
 
-## 9. Installer les dépendances
+## 10. Installer les dépendances
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 10. Lancer les exemples
+## 11. Lancer les exemples
 
 ```bash
 python write1.py
 python read1.py
+python write2.py
+python read2.py
+python write3.py
+python read3.py
 ```
 
-## 11. En résumé
+## 12. En résumé
 
 - JWT = format de token
 - JWS = JWT signé
