@@ -196,13 +196,24 @@ Le déchiffrement protège la confidentialité et `A256GCM` garantit l'intégrit
 - `public.pem` : clé publique RSA utilisée pour le chiffrement et la vérification
 - `requirements.txt` : dépendances nécessaires pour le projet
 
-## 10. Installer les dépendances
+## 10. Générer la bi-clé RSA
+
+Si les fichiers `private.pem` et `public.pem` n'existent pas encore, générez-les avec OpenSSL :
+
+```bash
+openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+openssl pkey -in private.pem -pubout -out public.pem
+```
+
+La clé privée `private.pem` doit rester secrète. La clé publique `public.pem` peut être distribuée au service qui chiffre les tokens.
+
+## 11. Installer les dépendances
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 11. Lancer les exemples
+## 12. Lancer les exemples
 
 ```bash
 python write1.py
@@ -213,7 +224,7 @@ python write3.py
 python read3.py
 ```
 
-## 12. En résumé
+## 13. En résumé
 
 - JWT = format de token
 - JWS = JWT signé
