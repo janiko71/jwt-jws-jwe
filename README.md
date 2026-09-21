@@ -1,6 +1,34 @@
-# Mini tutoriel JWT / JWS / JWE
+# JWT / JWS / JWE
 
-Ce projet montre comment générer, lire et vérifier des JWT en Python avec les bibliothèques `PyJWT` et `jwcrypto`.
+> Un mini laboratoire Python pour comprendre la signature, le chiffrement et la
+> vérification des JSON Web Tokens.
+
+[Accueil](README.md) · [Vérifier avec OpenSSL](VERIFICATION_OPENSSL.md)
+
+---
+
+Ce projet montre comment générer, lire et vérifier des tokens avec les bibliothèques
+`PyJWT` et `jwcrypto`.
+
+## Parcours rapide
+
+| Objectif | Fichier ou commande |
+| --- | --- |
+| Signer avec un secret partagé | `write_jws_secret.py` puis `read_jws_secret.py` |
+| Signer avec une bi-clé RSA | `write_jws_rsa.py` puis `read_jws_rsa.py` |
+| Chiffrer avec une clé publique RSA | `write_jwe.py` puis `read_jwe.py` |
+| Vérifier avec les outils système | [Guide OpenSSL et Bash](VERIFICATION_OPENSSL.md) |
+
+> [!IMPORTANT]
+> Les fichiers `private.pem`, `token.txt` et `token_chiffre.txt` sont des artefacts
+> locaux. La clé privée et les secrets réels ne doivent jamais être publiés.
+
+## Sommaire
+
+- [Comprendre les formats](#1-quest-ce-quun-jwt)
+- [Vérifier les claims](#6-vérification-dun-token-jwt)
+- [Installer et lancer les exemples](#11-installer-les-dépendances)
+- [Vérifier avec OpenSSL](#13-vérifier-les-tokens-avec-openssl)
 
 ## 1. Qu'est-ce qu'un JWT ?
 
@@ -226,8 +254,8 @@ python read_jwe.py
 
 ## 13. Vérifier les tokens avec OpenSSL
 
-Les commandes détaillées pour vérifier les JWS HS256 et RS256 ainsi que les JWE
-avec OpenSSL, Bash et `cryptography` sont dans [VERIFICATION_OPENSSL.md](VERIFICATION_OPENSSL.md).
+Le [guide OpenSSL et Bash](VERIFICATION_OPENSSL.md) explique comment vérifier les
+JWS HS256 et RS256 ainsi que les JWE avec les outils en ligne de commande.
 
 ## 14. En résumé
 
@@ -235,3 +263,7 @@ avec OpenSSL, Bash et `cryptography` sont dans [VERIFICATION_OPENSSL.md](VERIFIC
 - JWS = JWT signé
 - JWE = JWT chiffré
 - Les JWT sont très utilisés pour l'authentification et les autorisations dans les applications web et API.
+
+---
+
+[Accueil](README.md) · [Guide OpenSSL](VERIFICATION_OPENSSL.md)

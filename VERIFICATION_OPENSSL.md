@@ -1,8 +1,38 @@
-# Vérifier les tokens avec OpenSSL et Bash
+# Vérification avec OpenSSL et Bash
+
+> Contrôler les signatures JWS et déchiffrer un JWE depuis la ligne de commande.
+
+[Accueil du projet](README.md) · [Ce guide](VERIFICATION_OPENSSL.md)
+
+---
 
 Les commandes suivantes permettent de contrôler les tokens sans utiliser directement
 `jwt.decode()`. Elles vérifient la signature cryptographique. Les contrôles métier
 (`iss`, `aud`, `sub`, `role`, etc.) doivent toujours être faits séparément.
+
+## Avant de commencer
+
+Depuis la racine du projet, installe les dépendances et génère la bi-clé RSA si
+nécessaire :
+
+```bash
+pip install -r requirements.txt
+openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+openssl pkey -in private.pem -pubout -out public.pem
+```
+
+| Vérification | Token | Clé ou secret | Résultat attendu |
+| --- | --- | --- | --- |
+| HMAC | `token.txt` | Secret partagé | `Signature HS256 valide` |
+| RSA | `token.txt` | `public.pem` | `Verified OK` |
+| JWE | `token_chiffre.txt` | `private.pem` | Payload déchiffré |
+
+## Sommaire
+
+- [Préparer les fonctions Bash](#préparer-quelques-fonctions-bash)
+- [Vérifier un JWS HS256](#vérifier-un-jws-hs256-avec-un-secret-partagé)
+- [Vérifier un JWS RS256](#vérifier-un-jws-rs256-avec-la-bi-clé-rsa)
+- [Vérifier un JWE](#vérifier-un-jwe-avec-privatepem)
 
 ## Préparer quelques fonctions Bash
 
@@ -161,3 +191,7 @@ GCM. Une modification du header protégé, de l'IV, du ciphertext ou du tag prov
 une erreur `InvalidTag`. La sortie doit ensuite être contrôlée comme dans
 `read_jwe.py` : algorithmes attendus, expiration, audience, émetteur, sujet et
 permissions métier.
+
+---
+
+[Retour en haut](#vérification-avec-openssl-et-bash) · [Accueil du projet](README.md)
