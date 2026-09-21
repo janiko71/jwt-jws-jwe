@@ -3,7 +3,7 @@
 > Un mini laboratoire Python pour comprendre la signature, le chiffrement et la
 > vérification des JSON Web Tokens.
 
-[Accueil](README.md) · [Vérifier avec OpenSSL](VERIFICATION_OPENSSL.md)
+[Accueil](README.md) · [Vérifier avec OpenSSL](VERIFICATION_OPENSSL.md) · [Explorer sur jwt.io](https://www.jwt.io/)
 
 ---
 
@@ -18,10 +18,22 @@ Ce projet montre comment générer, lire et vérifier des tokens avec les biblio
 | Signer avec une bi-clé RSA | `write_jws_rsa.py` puis `read_jws_rsa.py` |
 | Chiffrer avec une clé publique RSA | `write_jwe.py` puis `read_jwe.py` |
 | Vérifier avec les outils système | [Guide OpenSSL et Bash](VERIFICATION_OPENSSL.md) |
+| Générer et inspecter un exemple | [jwt.io](https://www.jwt.io/) |
 
 > [!IMPORTANT]
 > Les fichiers `private.pem`, `token.txt` et `token_chiffre.txt` sont des artefacts
 > locaux. La clé privée et les secrets réels ne doivent jamais être publiés.
+
+## Explorer avec jwt.io
+
+[JSON Web Tokens - jwt.io](https://www.jwt.io/) propose un débogueur interactif
+pour générer des exemples de JWT, décoder leur header et leur payload, et tester
+des signatures de démonstration. C'est pratique pour visualiser la structure
+`header.payload.signature` avant de revenir aux scripts de ce projet.
+
+> [!WARNING]
+> N'y collez jamais un token de production, une clé privée ou un secret réel.
+> Utilisez uniquement des données fictives et des tokens de test.
 
 ## Sommaire
 
@@ -266,4 +278,4 @@ JWS HS256 et RS256 ainsi que les JWE avec les outils en ligne de commande.
 
 ---
 
-[Accueil](README.md) · [Guide OpenSSL](VERIFICATION_OPENSSL.md)
+[Accueil](README.md) · [Guide OpenSSL](VERIFICATION_OPENSSL.md) · [jwt.io](https://www.jwt.io/)

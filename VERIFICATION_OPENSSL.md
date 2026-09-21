@@ -2,13 +2,22 @@
 
 > Contrôler les signatures JWS et déchiffrer un JWE depuis la ligne de commande.
 
-[Accueil du projet](README.md) · [Ce guide](VERIFICATION_OPENSSL.md)
+[Accueil du projet](README.md) · [Ce guide](VERIFICATION_OPENSSL.md) · [jwt.io](https://www.jwt.io/)
 
 ---
 
 Les commandes suivantes permettent de contrôler les tokens sans utiliser directement
 `jwt.decode()`. Elles vérifient la signature cryptographique. Les contrôles métier
 (`iss`, `aud`, `sub`, `role`, etc.) doivent toujours être faits séparément.
+
+Pour générer rapidement un JWT de démonstration ou inspecter ses trois parties,
+tu peux aussi utiliser le [débogueur jwt.io](https://www.jwt.io/). Ce service est
+adapté aux exemples et à l'apprentissage ; les vérifications reproductibles du
+projet restent celles réalisées avec Python et OpenSSL.
+
+> [!WARNING]
+> N'utilise jamais jwt.io avec un token de production, une clé privée ou un secret
+> réel. Utilise uniquement des données fictives et des tokens de test.
 
 ## Avant de commencer
 
