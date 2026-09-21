@@ -157,7 +157,7 @@ C'est important parce que `jwt.decode()` valide le token, mais pas forcément le
 
 ## 7. Lecture d'un JWE
 
-Le token chiffré est déchiffré avec la clé privée RSA. Après le déchiffrement, `read3.py` vérifie les claims standards et les règles métier :
+Le token chiffré est déchiffré avec la clé privée RSA. Après le déchiffrement, `read_jwe.py` vérifie les claims standards et les règles métier :
 
 ```python
 import json
@@ -186,12 +186,12 @@ Le déchiffrement protège la confidentialité et `A256GCM` garantit l'intégrit
 
 ## 9. Fichiers du projet
 
-- `write1.py` : génère un JWT et l'écrit dans `token.txt`
-- `read1.py` : lit le token, le vérifie et affiche le payload
-- `write2.py` : génère un JWS signé avec RSA et l'écrit dans `token.txt`
-- `read2.py` : vérifie le JWS avec `public.pem`
-- `write3.py` : génère un JWE chiffré avec `public.pem` et l'écrit dans `token_chiffre.txt`
-- `read3.py` : déchiffre le JWE avec `private.pem` et vérifie ses claims
+- `write_jws_secret.py` : génère un JWS signé avec un secret et l'écrit dans `token.txt`
+- `read_jws_secret.py` : vérifie le JWS signé avec le secret
+- `write_jws_rsa.py` : génère un JWS signé avec une biclé RSA et l'écrit dans `token.txt`
+- `read_jws_rsa.py` : vérifie le JWS avec `public.pem`
+- `write_jwe.py` : génère un JWE chiffré avec `public.pem` et l'écrit dans `token_chiffre.txt`
+- `read_jwe.py` : déchiffre le JWE avec `private.pem` et vérifie ses claims
 - `private.pem` : clé privée RSA, à protéger et à ne jamais partager
 - `public.pem` : clé publique RSA utilisée pour le chiffrement et la vérification
 - `requirements.txt` : dépendances nécessaires pour le projet
@@ -216,12 +216,12 @@ pip install -r requirements.txt
 ## 12. Lancer les exemples
 
 ```bash
-python write1.py
-python read1.py
-python write2.py
-python read2.py
-python write3.py
-python read3.py
+python write_jws_secret.py
+python read_jws_secret.py
+python write_jws_rsa.py
+python read_jws_rsa.py
+python write_jwe.py
+python read_jwe.py
 ```
 
 ## 13. En résumé

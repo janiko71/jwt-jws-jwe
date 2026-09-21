@@ -7,6 +7,8 @@ from jwcrypto import jwk, jwe
 
 token_file = "token_chiffre.txt"
 private_key_file = "private.pem"
+algorithme_attendu = "RSA-OAEP-256"
+chiffrement_attendu = "A256GCM"
 audience_attendue = "jwt-demo-app"
 issuer_attendu = "https://geba.fr"
 utilisateur_attendu = "jeannot-lapin"
@@ -21,9 +23,9 @@ try:
     encrypted_token.deserialize(token, key=private_key)
 
     header = encrypted_token.jose_header
-    if header.get("alg") != "RSA-OAEP-256":
+    if header.get("alg") != algorithme_attendu:
         raise ValueError("Algorithme JWE inattendu")
-    if header.get("enc") != "A256GCM":
+    if header.get("enc") != chiffrement_attendu:
         raise ValueError("Chiffrement JWE inattendu")
 
     payload = json.loads(encrypted_token.payload.decode("utf-8"))
