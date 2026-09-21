@@ -1,5 +1,6 @@
 # Token, secrets, etc.
 *.pem
+*.bin
 token*
 
 # Byte-compiled / optimized / DLL files

@@ -224,7 +224,12 @@ python write_jwe.py
 python read_jwe.py
 ```
 
-## 13. En résumé
+## 13. Vérifier les tokens avec OpenSSL
+
+Les commandes détaillées pour vérifier les JWS HS256 et RS256 ainsi que les JWE
+avec OpenSSL, Bash et `cryptography` sont dans [VERIFICATION_OPENSSL.md](VERIFICATION_OPENSSL.md).
+
+## 14. En résumé
 
 - JWT = format de token
 - JWS = JWT signé
